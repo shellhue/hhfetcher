@@ -1,6 +1,6 @@
-hhfetcher is for fetching common resources in a dir.
+hhfetcher is for fetching common resources in a directory.
 
-Supported API:
+Current supported API:
 
 `get_subfolders(root: str) -> [str]`: Get immediate subfolders in folder of root.
 
