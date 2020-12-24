@@ -1,4 +1,4 @@
-HHfetcher is for fetching common resources in a dir.
+hhfetcher is for fetching common resources in a dir.
 
 Supported API:
 
