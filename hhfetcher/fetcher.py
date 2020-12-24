@@ -20,77 +20,77 @@ def _expand_user_and_relative_for_path(p):
     return os.path.abspath(p)
 
 
-def get_subfolders(folder_path):
-    """Get immediate subfolders in folder_path
+def get_subfolders(root: str) -> [str]:
+    """Get immediate subfolders in folder of root
 
     Args:
-        folder_path (str): target folder path
+        root (str): target folder path
 
     Returns:
         list[str]: list of subfolder path string
     """
-    folder_path = _expand_user_and_relative_for_path(folder_path)
+    root = _expand_user_and_relative_for_path(root)
 
-    assert os.path.isdir(folder_path), "invalid folder path: {}".format(folder_path)
-    return [f.path for f in os.scandir(folder_path) if f.is_dir()]
+    assert os.path.isdir(root), "invalid folder: {}".format(root)
+    return [f.path for f in os.scandir(root) if f.is_dir()]
 
 
-def get_subfolder_names(folder_path):
-    """Get names of immediate subfolder in folder_path
+def get_subfolder_names(root: str) -> [str]:
+    """Get names of immediate subfolder in folder of root
 
     Args:
-        folder_path (str): target folder path
+        root (str): target folder path
 
     Returns:
         list[str]: list of subfolder name string
     """
-    folder_path = _expand_user_and_relative_for_path(folder_path)
-    assert os.path.isdir(folder_path), "invalid folder path: {}".format(folder_path)
-    return [f.name for f in os.scandir(folder_path) if f.is_dir()]
+    root = _expand_user_and_relative_for_path(root)
+    assert os.path.isdir(root), "invalid folder: {}".format(root)
+    return [f.name for f in os.scandir(root) if f.is_dir()]
 
 
-def get_subfolders_recursively(folder_path):
-    """Get all subfolders recursively in folder_path.
+def get_subfolders_recursively(root: str) -> [str]:
+    """Get all subfolders recursively in folder of root.
 
     Args:
-        folder_path (str): target folder path
+        root (str): target folder path
 
     Returns:
         list[str]: list of subfolder path string
     """
-    folder_path = _expand_user_and_relative_for_path(folder_path)
-    assert os.path.isdir(folder_path), "invalid folder path: {}".format(folder_path)
+    root = _expand_user_and_relative_for_path(root)
+    assert os.path.isdir(root), "invalid folder: {}".format(root)
     folder_list = []
-    for root, dirs, _ in os.walk(folder_path):
+    for root, dirs, _ in os.walk(root):
         for one_dir in dirs:
             one_dir = os.path.join(root, one_dir)
             folder_list.append(one_dir)
     return folder_list
 
 
-def get_files_in_dir(dir_path, formats):
-    """Get all files just in directory of dir_path.
+def get_files_in_dir(root: str, formats: [str]) -> [str]:
+    """Get all files just in directory of root.
 
     Args:
-        dir_path (str): target directory path
-        formats (list[str]): file fomates
+        root (str): target directory path
+        formats (list[str]): file formats
 
     Returns:
         list[str]: list of file path string
     """
-    dir_path = _expand_user_and_relative_for_path(dir_path)
-    assert os.path.isdir(dir_path), "invalid directory path: {}".format(dir_path)
+    root = _expand_user_and_relative_for_path(root)
+    assert os.path.isdir(root), "invalid directory: {}".format(root)
     assert len(formats), "invalid format: {}".format(formats)
     all_files = []
-    files = os.listdir(dir_path)
+    files = os.listdir(root)
     for f in files:
         ext = os.path.splitext(f)[1]
         if ext in formats:
-            all_files.append(os.path.join(dir_path, f))
+            all_files.append(os.path.join(root, f))
     return all_files
 
 
-def get_files_recursively_in_dir(root, formats):
+def get_files_recursively_in_dir(root: str, formats: [str]) -> [str]:
     """Get all files recursively contained in directory of root.
 
     Args:
@@ -101,7 +101,7 @@ def get_files_recursively_in_dir(root, formats):
         list[str]: list of file path string
     """
     root = _expand_user_and_relative_for_path(root)
-    assert os.path.isdir(root), "invalid folder path: {}".format(root)
+    assert os.path.isdir(root), "invalid directory: {}".format(root)
     assert len(formats), "invalid format: {}".format(formats)
     all_files = []
     subfolders = get_subfolders_recursively(root)
@@ -112,7 +112,7 @@ def get_files_recursively_in_dir(root, formats):
     return all_files
 
 
-def get_imgs_in_dir(root):
+def get_imgs_in_dir(root: str) -> [str]:
     """Get all imgs just in directory of root.
 
     Args:
@@ -125,7 +125,7 @@ def get_imgs_in_dir(root):
     return get_files_in_dir(root, img_formats)
 
 
-def get_imgs_recursively_in_dir(root):
+def get_imgs_recursively_in_dir(root: str) -> [str]:
     """Get all imgs recursively contained in directory of root.
 
     Args:
